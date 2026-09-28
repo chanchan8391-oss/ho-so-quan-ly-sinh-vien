@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Hồ sơ quản lý sinh viên</title>
 
   <style>
@@ -10,7 +11,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     body {
@@ -21,48 +22,72 @@
     header {
       background: linear-gradient(135deg, #1565c0, #0d47a1);
       color: white;
-      padding: 25px;
+      padding: 30px 15px;
       text-align: center;
     }
 
     header h1 {
+      font-size: 30px;
       margin-bottom: 8px;
     }
 
+    header p {
+      font-size: 16px;
+    }
+
     .container {
-      width: 92%;
+      width: 94%;
       max-width: 1200px;
       margin: 25px auto;
     }
 
-    .info {
+    .box {
       background: white;
-      padding: 20px;
+      padding: 22px;
       border-radius: 12px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
       margin-bottom: 25px;
     }
 
-    .info h2 {
+    .box h2 {
       color: #1565c0;
-      margin-bottom: 15px;
+      margin-bottom: 18px;
+      border-bottom: 2px solid #e3f2fd;
+      padding-bottom: 10px;
     }
 
-    .info p {
-      margin: 8px 0;
+    .project-info p {
+      margin: 10px 0;
+      line-height: 1.6;
     }
 
-    .form-box {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    .member {
+      background: #f5f9ff;
+      border-left: 4px solid #1565c0;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
       margin-bottom: 25px;
     }
 
-    .form-box h2 {
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .stat-card h3 {
       color: #1565c0;
-      margin-bottom: 15px;
+      font-size: 28px;
+      margin-bottom: 5px;
     }
 
     .form-grid {
@@ -71,23 +96,36 @@
       gap: 15px;
     }
 
-    input, select {
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    input,
+    select {
       width: 100%;
       padding: 11px;
       border: 1px solid #ccc;
       border-radius: 7px;
       outline: none;
+      font-size: 14px;
     }
 
-    input:focus, select:focus {
+    input:focus,
+    select:focus {
       border-color: #1565c0;
+      box-shadow: 0 0 3px rgba(21,101,192,0.3);
+    }
+
+    .button-group {
+      margin-top: 18px;
     }
 
     button {
-      margin-top: 15px;
-      padding: 11px 20px;
       border: none;
       border-radius: 7px;
+      padding: 10px 16px;
       cursor: pointer;
       font-weight: bold;
     }
@@ -97,28 +135,46 @@
       color: white;
     }
 
+    .btn-reset {
+      background: #757575;
+      color: white;
+      margin-left: 5px;
+    }
+
+    .btn-edit {
+      background: #ff9800;
+      color: white;
+      padding: 7px 10px;
+      margin: 2px;
+    }
+
     .btn-delete {
       background: #e53935;
       color: white;
-      padding: 7px 12px;
-      margin: 0;
+      padding: 7px 10px;
+      margin: 2px;
+    }
+
+    button:hover {
+      opacity: 0.88;
     }
 
     .search-box {
-      margin-bottom: 15px;
+      margin-bottom: 18px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       background: white;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
     }
 
-    th, td {
+    th,
+    td {
       border: 1px solid #ddd;
-      padding: 11px;
+      padding: 10px;
       text-align: center;
+      vertical-align: middle;
     }
 
     th {
@@ -127,24 +183,41 @@
     }
 
     tr:nth-child(even) {
-      background: #f5f5f5;
+      background: #f7f7f7;
+    }
+
+    tr:hover {
+      background: #eaf3ff;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
     }
 
     footer {
-      margin-top: 30px;
+      margin-top: 35px;
       background: #0d47a1;
       color: white;
       text-align: center;
-      padding: 18px;
+      padding: 20px 10px;
+      line-height: 1.6;
     }
 
-    @media(max-width: 700px) {
+    @media (max-width: 768px) {
       .form-grid {
         grid-template-columns: 1fr;
       }
 
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 24px;
+      }
+
       table {
-        font-size: 13px;
+        font-size: 12px;
       }
     }
   </style>
@@ -154,56 +227,153 @@
 
 <header>
   <h1>HỒ SƠ QUẢN LÝ SINH VIÊN</h1>
-  <p>Website quản lý thông tin sinh viên</p>
+  <p>Website quản lý và tra cứu thông tin sinh viên</p>
 </header>
 
 <div class="container">
 
-  <div class="info">
+  <!-- THÔNG TIN ĐỒ ÁN -->
+  <div class="box project-info">
     <h2>Thông tin đồ án</h2>
-    <p><strong>Tên đồ án:</strong> Hồ sơ quản lý sinh viên</p>
-    <p><strong>Sinh viên thực hiện:</strong> Nguyễn Thị Trang</p>
-    <p><strong>Mã số sinh viên:</strong> 254748020190040</p>
-  </div>
 
-  <div class="form-box">
-    <h2>Thêm sinh viên</h2>
+    <p>
+      <strong>Tên đồ án:</strong>
+      Hồ sơ quản lý sinh viên
+    </p>
 
-    <div class="form-grid">
-      <input type="text" id="maSV" placeholder="Mã sinh viên">
-      <input type="text" id="hoTen" placeholder="Họ và tên">
+    <p>
+      <strong>Nhóm sinh viên thực hiện:</strong>
+    </p>
 
-      <input type="date" id="ngaySinh">
-
-      <select id="gioiTinh">
-        <option value="">Chọn giới tính</option>
-        <option>Nam</option>
-        <option>Nữ</option>
-      </select>
-
-      <input type="text" id="lop" placeholder="Lớp">
-      <input type="text" id="nganh" placeholder="Ngành học">
-
-      <input type="email" id="email" placeholder="Email">
-      <input type="text" id="sdt" placeholder="Số điện thoại">
+    <div class="member">
+      <strong>1. Nguyễn Thị Trang</strong><br>
+      Mã số sinh viên: <strong>254748020190040</strong>
     </div>
 
-    <button class="btn-add" onclick="themSinhVien()">Thêm sinh viên</button>
+    <div class="member">
+      <strong>2. Nguyễn Thị Hà</strong><br>
+      Mã số sinh viên: <strong>254748020180008</strong>
+    </div>
   </div>
 
-  <div class="form-box">
+  <!-- THỐNG KÊ -->
+  <div class="stats">
+    <div class="stat-card">
+      <h3 id="tongSV">0</h3>
+      <p>Tổng sinh viên</p>
+    </div>
+
+    <div class="stat-card">
+      <h3 id="tongNam">0</h3>
+      <p>Sinh viên Nam</p>
+    </div>
+
+    <div class="stat-card">
+      <h3 id="tongNu">0</h3>
+      <p>Sinh viên Nữ</p>
+    </div>
+  </div>
+
+  <!-- FORM NHẬP -->
+  <div class="box">
+    <h2 id="tieuDeForm">Thêm sinh viên</h2>
+
+    <div class="form-grid">
+
+      <div>
+        <label>Mã sinh viên</label>
+        <input
+          type="text"
+          id="maSV"
+          placeholder="Nhập mã sinh viên">
+      </div>
+
+      <div>
+        <label>Họ và tên</label>
+        <input
+          type="text"
+          id="hoTen"
+          placeholder="Nhập họ và tên">
+      </div>
+
+      <div>
+        <label>Ngày sinh</label>
+        <input type="date" id="ngaySinh">
+      </div>
+
+      <div>
+        <label>Giới tính</label>
+        <select id="gioiTinh">
+          <option value="">-- Chọn giới tính --</option>
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Lớp</label>
+        <input
+          type="text"
+          id="lop"
+          placeholder="Nhập lớp">
+      </div>
+
+      <div>
+        <label>Ngành học</label>
+        <input
+          type="text"
+          id="nganh"
+          placeholder="Nhập ngành học">
+      </div>
+
+      <div>
+        <label>Email</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Nhập email">
+      </div>
+
+      <div>
+        <label>Số điện thoại</label>
+        <input
+          type="text"
+          id="sdt"
+          placeholder="Nhập số điện thoại">
+      </div>
+
+    </div>
+
+    <div class="button-group">
+      <button
+        class="btn-add"
+        id="btnLuu"
+        onclick="luuSinhVien()">
+        Thêm sinh viên
+      </button>
+
+      <button
+        class="btn-reset"
+        onclick="xoaForm()">
+        Làm mới
+      </button>
+    </div>
+  </div>
+
+  <!-- DANH SÁCH -->
+  <div class="box">
     <h2>Danh sách sinh viên</h2>
 
     <div class="search-box">
       <input
         type="text"
         id="timKiem"
-        placeholder="Nhập tên hoặc mã sinh viên để tìm kiếm..."
+        placeholder="Tìm kiếm theo mã sinh viên, họ tên, lớp hoặc ngành..."
         onkeyup="timSinhVien()">
     </div>
 
-    <div style="overflow-x:auto">
-      <table id="bangSinhVien">
+    <div class="table-wrap">
+      <table>
         <thead>
           <tr>
             <th>STT</th>
@@ -222,77 +392,132 @@
         <tbody id="danhSach"></tbody>
       </table>
     </div>
+
   </div>
 
 </div>
 
 <footer>
-  Đồ án Hồ sơ quản lý sinh viên - Nguyễn Thị Trang - MSSV 254748020190040
+  <strong>ĐỒ ÁN HỒ SƠ QUẢN LÝ SINH VIÊN</strong>
+  <br>
+  Nguyễn Thị Trang - MSSV: 254748020190040
+  <br>
+  Nguyễn Thị Hà - MSSV: 254748020180008
 </footer>
 
 <script>
-  let sinhVien = JSON.parse(localStorage.getItem("sinhVien")) || [
-    {
-      maSV: "254748020190040",
-      hoTen: "Nguyễn Thị Trang",
-      ngaySinh: "2000-01-01",
-      gioiTinh: "Nữ",
-      lop: "K66.T1",
-      nganh: "Công nghệ thông tin",
-      email: "trang@example.com",
-      sdt: "0123456789"
-    }
-  ];
+
+  let sinhVien =
+    JSON.parse(localStorage.getItem("danhSachSinhVien")) || [];
+
+  let viTriDangSua = -1;
+
+  function luuDuLieu() {
+    localStorage.setItem(
+      "danhSachSinhVien",
+      JSON.stringify(sinhVien)
+    );
+  }
 
   function hienThiDanhSach(ds = sinhVien) {
-    const tbody = document.getElementById("danhSach");
+
+    const tbody =
+      document.getElementById("danhSach");
+
     tbody.innerHTML = "";
 
-    ds.forEach((sv, index) => {
-      tbody.innerHTML += `
+    if (ds.length === 0) {
+      tbody.innerHTML = `
         <tr>
-          <td>${index + 1}</td>
-          <td>${sv.maSV}</td>
-          <td>${sv.hoTen}</td>
-          <td>${sv.ngaySinh}</td>
-          <td>${sv.gioiTinh}</td>
-          <td>${sv.lop}</td>
-          <td>${sv.nganh}</td>
-          <td>${sv.email}</td>
-          <td>${sv.sdt}</td>
-          <td>
-            <button class="btn-delete" onclick="xoaSinhVien('${sv.maSV}')">
-              Xóa
-            </button>
+          <td colspan="10">
+            Chưa có dữ liệu sinh viên
           </td>
         </tr>
       `;
+
+      capNhatThongKe();
+      return;
+    }
+
+    ds.forEach((sv) => {
+
+      const indexGoc =
+        sinhVien.findIndex(
+          item => item.maSV === sv.maSV
+        );
+
+      const row =
+        document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${indexGoc + 1}</td>
+        <td>${sv.maSV}</td>
+        <td>${sv.hoTen}</td>
+        <td>${dinhDangNgay(sv.ngaySinh)}</td>
+        <td>${sv.gioiTinh}</td>
+        <td>${sv.lop}</td>
+        <td>${sv.nganh}</td>
+        <td>${sv.email}</td>
+        <td>${sv.sdt}</td>
+
+        <td>
+          <button
+            class="btn-edit"
+            onclick="suaSinhVien(${indexGoc})">
+            Sửa
+          </button>
+
+          <button
+            class="btn-delete"
+            onclick="xoaSinhVien(${indexGoc})">
+            Xóa
+          </button>
+        </td>
+      `;
+
+      tbody.appendChild(row);
     });
+
+    capNhatThongKe();
   }
 
-  function themSinhVien() {
-    const maSV = document.getElementById("maSV").value.trim();
-    const hoTen = document.getElementById("hoTen").value.trim();
-    const ngaySinh = document.getElementById("ngaySinh").value;
-    const gioiTinh = document.getElementById("gioiTinh").value;
-    const lop = document.getElementById("lop").value.trim();
-    const nganh = document.getElementById("nganh").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const sdt = document.getElementById("sdt").value.trim();
+  function luuSinhVien() {
 
-    if (maSV === "" || hoTen === "") {
-      alert("Vui lòng nhập mã sinh viên và họ tên.");
+    const maSV =
+      document.getElementById("maSV").value.trim();
+
+    const hoTen =
+      document.getElementById("hoTen").value.trim();
+
+    const ngaySinh =
+      document.getElementById("ngaySinh").value;
+
+    const gioiTinh =
+      document.getElementById("gioiTinh").value;
+
+    const lop =
+      document.getElementById("lop").value.trim();
+
+    const nganh =
+      document.getElementById("nganh").value.trim();
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const sdt =
+      document.getElementById("sdt").value.trim();
+
+    if (maSV === "") {
+      alert("Vui lòng nhập mã sinh viên.");
       return;
     }
 
-    const tonTai = sinhVien.some(sv => sv.maSV === maSV);
-
-    if (tonTai) {
-      alert("Mã sinh viên đã tồn tại.");
+    if (hoTen === "") {
+      alert("Vui lòng nhập họ và tên sinh viên.");
       return;
     }
 
-    sinhVien.push({
+    const duLieu = {
       maSV,
       hoTen,
       ngaySinh,
@@ -301,39 +526,154 @@
       nganh,
       email,
       sdt
-    });
+    };
 
-    localStorage.setItem("sinhVien", JSON.stringify(sinhVien));
+    if (viTriDangSua === -1) {
 
-    hienThiDanhSach();
+      const tonTai =
+        sinhVien.some(
+          sv => sv.maSV === maSV
+        );
+
+      if (tonTai) {
+        alert("Mã sinh viên đã tồn tại.");
+        return;
+      }
+
+      sinhVien.push(duLieu);
+
+      alert("Thêm sinh viên thành công.");
+
+    } else {
+
+      const maBiTrung =
+        sinhVien.some(
+          (sv, index) =>
+            sv.maSV === maSV &&
+            index !== viTriDangSua
+        );
+
+      if (maBiTrung) {
+        alert("Mã sinh viên đã tồn tại.");
+        return;
+      }
+
+      sinhVien[viTriDangSua] = duLieu;
+
+      alert("Cập nhật sinh viên thành công.");
+    }
+
+    luuDuLieu();
+
     xoaForm();
 
-    alert("Đã thêm sinh viên thành công.");
+    hienThiDanhSach();
   }
 
-  function xoaSinhVien(maSV) {
-    if (confirm("Bạn có chắc muốn xóa sinh viên này?")) {
-      sinhVien = sinhVien.filter(sv => sv.maSV !== maSV);
+  function suaSinhVien(index) {
 
-      localStorage.setItem("sinhVien", JSON.stringify(sinhVien));
+    const sv = sinhVien[index];
+
+    document.getElementById("maSV").value =
+      sv.maSV;
+
+    document.getElementById("hoTen").value =
+      sv.hoTen;
+
+    document.getElementById("ngaySinh").value =
+      sv.ngaySinh;
+
+    document.getElementById("gioiTinh").value =
+      sv.gioiTinh;
+
+    document.getElementById("lop").value =
+      sv.lop;
+
+    document.getElementById("nganh").value =
+      sv.nganh;
+
+    document.getElementById("email").value =
+      sv.email;
+
+    document.getElementById("sdt").value =
+      sv.sdt;
+
+    viTriDangSua = index;
+
+    document.getElementById("tieuDeForm")
+      .innerText = "Cập nhật sinh viên";
+
+    document.getElementById("btnLuu")
+      .innerText = "Lưu thay đổi";
+
+    window.scrollTo({
+      top: 500,
+      behavior: "smooth"
+    });
+  }
+
+  function xoaSinhVien(index) {
+
+    const sv = sinhVien[index];
+
+    const xacNhan = confirm(
+      "Bạn có chắc muốn xóa sinh viên " +
+      sv.hoTen +
+      " không?"
+    );
+
+    if (xacNhan) {
+
+      sinhVien.splice(index, 1);
+
+      luuDuLieu();
 
       hienThiDanhSach();
+
+      alert("Đã xóa sinh viên.");
     }
   }
 
   function timSinhVien() {
-    const tuKhoa =
-      document.getElementById("timKiem").value.toLowerCase();
 
-    const ketQua = sinhVien.filter(sv =>
-      sv.hoTen.toLowerCase().includes(tuKhoa) ||
-      sv.maSV.toLowerCase().includes(tuKhoa)
-    );
+    const tuKhoa =
+      document.getElementById("timKiem")
+      .value
+      .toLowerCase()
+      .trim();
+
+    const ketQua =
+      sinhVien.filter(sv =>
+
+        sv.maSV
+          .toLowerCase()
+          .includes(tuKhoa)
+
+        ||
+
+        sv.hoTen
+          .toLowerCase()
+          .includes(tuKhoa)
+
+        ||
+
+        sv.lop
+          .toLowerCase()
+          .includes(tuKhoa)
+
+        ||
+
+        sv.nganh
+          .toLowerCase()
+          .includes(tuKhoa)
+
+      );
 
     hienThiDanhSach(ketQua);
   }
 
   function xoaForm() {
+
     document.getElementById("maSV").value = "";
     document.getElementById("hoTen").value = "";
     document.getElementById("ngaySinh").value = "";
@@ -342,9 +682,61 @@
     document.getElementById("nganh").value = "";
     document.getElementById("email").value = "";
     document.getElementById("sdt").value = "";
+
+    viTriDangSua = -1;
+
+    document.getElementById("tieuDeForm")
+      .innerText = "Thêm sinh viên";
+
+    document.getElementById("btnLuu")
+      .innerText = "Thêm sinh viên";
+  }
+
+  function capNhatThongKe() {
+
+    document.getElementById("tongSV")
+      .innerText = sinhVien.length;
+
+    const nam =
+      sinhVien.filter(
+        sv => sv.gioiTinh === "Nam"
+      ).length;
+
+    const nu =
+      sinhVien.filter(
+        sv => sv.gioiTinh === "Nữ"
+      ).length;
+
+    document.getElementById("tongNam")
+      .innerText = nam;
+
+    document.getElementById("tongNu")
+      .innerText = nu;
+  }
+
+  function dinhDangNgay(ngay) {
+
+    if (!ngay) {
+      return "";
+    }
+
+    const parts = ngay.split("-");
+
+    if (parts.length !== 3) {
+      return ngay;
+    }
+
+    return (
+      parts[2] +
+      "/" +
+      parts[1] +
+      "/" +
+      parts[0]
+    );
   }
 
   hienThiDanhSach();
+
 </script>
 
 </body>
